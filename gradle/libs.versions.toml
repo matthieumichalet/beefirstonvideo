@@ -13,7 +13,7 @@ lifecycleRuntimeKtx = "2.8.7"
 material = "1.12.0"
 mockkVersion = "1.13.9"
 testCoroutinesVersion = "1.8.0"
-playServicesCast = "22.0.0"
+mediaVersion = "1.5.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -36,7 +36,9 @@ koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", versi
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 test-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "testCoroutinesVersion" }
 test-mockk = { group = "io.mockk", name = "mockk-android", version.ref = "mockkVersion" }
-play-services-cast = { group = "com.google.android.gms", name = "play-services-cast", version.ref = "playServicesCast" }
+media-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "mediaVersion" }
+media-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "mediaVersion" }
+media-exoplayer-hls = { group = "androidx.media3", name = "media3-exoplayer-hls", version.ref = "mediaVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

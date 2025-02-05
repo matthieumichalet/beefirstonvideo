@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import io.involvedapps.beefirstonvideo.ui.theme.BeeFirstOnVideoTheme
-import io.involvedapps.beefirstonvideo.video.VideoScreen
+import io.involvedapps.beefirstonvideo.video.views.VideoScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
