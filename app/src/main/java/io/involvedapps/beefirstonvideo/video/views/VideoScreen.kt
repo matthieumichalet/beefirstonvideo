@@ -12,10 +12,13 @@ internal fun VideoScreen(
     videoViewModel: VideoViewModel = koinViewModel(),
 ) {
     val state = videoViewModel.videoState.collectAsState().value
+    val searchedText = videoViewModel.searchedTextState.collectAsState().value
 
     VideoScreenView(
         modifier = modifier,
         state = state,
+        searchedText = searchedText,
+        onSearchedTextChange = videoViewModel::updateSearchedText,
         onClickSearch = videoViewModel::getVideoById,
         onInitVideo = videoViewModel::initializePlayer,
         onVideoResume = videoViewModel::onVideoResume,

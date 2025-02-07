@@ -14,6 +14,8 @@ import io.involvedapps.beefirstonvideo.video.VideoViewModel
 internal fun VideoScreenView(
     modifier: Modifier = Modifier,
     state: VideoViewModel.VideoState,
+    searchedText: String,
+    onSearchedTextChange: (String) -> Unit,
     onClickSearch: (String) -> Unit,
     onInitVideo: (Context, String) -> Unit,
     onVideoResume: () -> Unit,
@@ -27,6 +29,8 @@ internal fun VideoScreenView(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         VideoIdTextFieldView(
+            text = searchedText,
+            onSearchedTextChange = onSearchedTextChange,
             onClickSearch = onClickSearch,
         )
 

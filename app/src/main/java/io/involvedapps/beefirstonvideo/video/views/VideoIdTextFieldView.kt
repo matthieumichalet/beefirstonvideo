@@ -8,21 +8,23 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import io.involvedapps.beefirstonvideo.utils.views.hideKeyboard
 
 @Composable
 internal fun VideoIdTextFieldView(
     modifier: Modifier = Modifier,
+    text: String,
+    onSearchedTextChange: (String) -> Unit,
     onClickSearch: (String) -> Unit,
 ) {
-    var text by remember { mutableStateOf("") }
+    val context = LocalContext.current
+    val view = LocalView.current
 
     Column(
         modifier = modifier.padding(16.dp),
@@ -32,11 +34,12 @@ internal fun VideoIdTextFieldView(
             modifier = Modifier.padding(8.dp),
             value = text,
             onValueChange = { newText ->
-                text = newText
+                onSearchedTextChange(newText)
             },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(onSearch = {
                 if (text.isNotEmpty()) {
+                    hideKeyboard(context, view)
                     onClickSearch(text)
                 }
             }),
@@ -46,6 +49,7 @@ internal fun VideoIdTextFieldView(
             modifier = Modifier.padding(8.dp),
             onClick = {
                 if (text.isNotEmpty()) {
+                    hideKeyboard(context, view)
                     onClickSearch(text)
                 }
             },

@@ -27,8 +27,15 @@ class VideoViewModel(
     private val _videoState = MutableStateFlow<VideoState>(VideoState.None)
     val videoState: StateFlow<VideoState> = _videoState
 
+    private val _searchedTextState = MutableStateFlow("")
+    val searchedTextState: StateFlow<String> = _searchedTextState
+
     private var playbackPosition : Long = 0L
     private val exoPlayer = MutableStateFlow<ExoPlayer?>(null)
+
+    fun updateSearchedText(text: String) {
+        _searchedTextState.value = text
+    }
 
     fun getVideoById(videoId: String) {
         viewModelScope.launch {
