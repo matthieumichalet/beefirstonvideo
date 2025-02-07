@@ -1,7 +1,6 @@
 package io.involvedapps.beefirstonvideo.video
 
 import android.content.Context
-import android.util.Log
 import androidx.annotation.OptIn
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -92,8 +91,22 @@ class VideoViewModel(
     private fun handlePlayerError(error: Exception) {
         when (error) {
             is PlaybackException -> {
-                Log.e("ExoPlayer debug", "Playback error code: ${error.errorCode}")
-                _videoState.value = VideoState.VideoError(VideoState.VideoErrorCodeUI.ExoPlayerFailedToLoad)
+                when (error.errorCode) {
+                    PlaybackException.ERROR_CODE_IO_NETWORK_CONNECTION_FAILED,
+                    PlaybackException.ERROR_CODE_IO_NETWORK_CONNECTION_TIMEOUT -> {
+                        _videoState.value = VideoState.VideoError(VideoState.VideoErrorCodeUI.ExoPlayerNoNetwork)
+                    }
+                    PlaybackException.ERROR_CODE_IO_INVALID_HTTP_CONTENT_TYPE,
+                    PlaybackException.ERROR_CODE_IO_FILE_NOT_FOUND -> {
+                        _videoState.value = VideoState.VideoError(VideoState.VideoErrorCodeUI.ExoPlayerBadVideoId)
+                    }
+                    PlaybackException.ERROR_CODE_IO_UNSPECIFIED -> {
+                        _videoState.value = VideoState.VideoError(VideoState.VideoErrorCodeUI.ExoPlayerNoNetworkPermission)
+                    }
+                    else -> {
+                        _videoState.value = VideoState.VideoError(VideoState.VideoErrorCodeUI.UnknownError)
+                    }
+                }
             }
             else -> {
                 _videoState.value = VideoState.VideoError(VideoState.VideoErrorCodeUI.UnknownError)
@@ -134,7 +147,9 @@ class VideoViewModel(
 
         sealed interface VideoErrorCodeUI {
 
-            data object ExoPlayerFailedToLoad : VideoErrorCodeUI
+            data object ExoPlayerNoNetworkPermission : VideoErrorCodeUI
+            data object ExoPlayerNoNetwork : VideoErrorCodeUI
+            data object ExoPlayerBadVideoId : VideoErrorCodeUI
             data object UnknownError : VideoErrorCodeUI
 
         }

@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -33,16 +32,14 @@ internal fun VideoScreenView(
 
         when (state) {
             is VideoViewModel.VideoState.WaitingInitialization -> {
-                LaunchedEffect(Unit) {
-                    onInitVideo(context, state.videoInfo.videoUrl)
-                }
-                Text("Waiting")
+                onInitVideo(context, state.videoInfo.videoUrl)
+                Text("Loading video")
             }
             is VideoViewModel.VideoState.VideoInfoError -> {
                 Text("Error")
             }
             VideoViewModel.VideoState.Loading -> {
-                Text("Loading")
+                Text("Searching video infos")
             }
             VideoViewModel.VideoState.None -> {
                 Text("None")
