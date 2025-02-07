@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "BeeFirstOnVideo"
 include(":app")
 include(":usescases")
+include(":repositories")

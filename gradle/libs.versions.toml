@@ -14,6 +14,7 @@ material = "1.12.0"
 mockkVersion = "1.13.9"
 testCoroutinesVersion = "1.8.0"
 mediaVersion = "1.5.1"
+serialization = "1.6.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -39,10 +40,12 @@ test-mockk = { group = "io.mockk", name = "mockk-android", version.ref = "mockkV
 media-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "mediaVersion" }
 media-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "mediaVersion" }
 media-exoplayer-hls = { group = "androidx.media3", name = "media3-exoplayer-hls", version.ref = "mediaVersion" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 

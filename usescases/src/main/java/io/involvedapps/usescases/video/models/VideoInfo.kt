@@ -8,7 +8,7 @@ data class VideoInfo(
     val videoUrl: String,
 )
 
-internal fun Random.nextVideoInfo() = VideoInfo(
+fun Random.nextVideoInfo() = VideoInfo(
     title = nextLong().toString(),
     thumbnailUrl = nextLong().toString(),
     videoUrl = nextLong().toString(),
