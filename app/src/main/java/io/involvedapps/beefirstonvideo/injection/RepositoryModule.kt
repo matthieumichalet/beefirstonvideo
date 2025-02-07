@@ -17,7 +17,7 @@ class VideoRepositoryFake : VideoRepository {
             videoInfo = VideoInfo(
                 title = "J'ai escaladé une tour de 210 mètres à mains nues !",
                 thumbnailUrl = "https://s2.dmcdn.net/v/Xmxzi1ddBIE0327ja/x360",
-                videoUrl = "https:\\/\\/www.dailymotion.com\\/cdn\\/manifest\\/video\\/x9dkv7s.m3u8?sec=DWIUgDfBjbafXRI5uf3_GR-pY2Mh2GS515Luby8tppiRm-VqBacyMLl0Y-PVCks7aIMBkyX8QZEITsMwqMt5PA&dmTs=289765&dmV1st=a4523e3c-5ada-1ff8-d31c-cd10ae8b0aff",
+                videoUrl = "https://www.dailymotion.com/cdn/manifest/video/x9cgw2w.m3u8?sec=cyP0O10frsgrdjdgbDL7q8N6UwOqU243xNeciGoXpSEHnAaFwmkvvH5ppK_wBMh7CCSiZVEG6-vqCNmxN9U4kA&dmTs=289765&dmV1st=a4523e3c-5ada-1ff8-d31c-cd10ae8b0aff",
             )
         )
     }

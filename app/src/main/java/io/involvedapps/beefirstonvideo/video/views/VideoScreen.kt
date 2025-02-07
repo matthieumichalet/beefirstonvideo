@@ -11,12 +11,16 @@ internal fun VideoScreen(
     modifier: Modifier = Modifier,
     videoViewModel: VideoViewModel = koinViewModel(),
 ) {
-    val state = videoViewModel.getVideoInfoState.collectAsState().value
+    val state = videoViewModel.videoState.collectAsState().value
 
     VideoScreenView(
         modifier = modifier,
         state = state,
-        onClickSearch = videoViewModel::getVideoInfoById,
+        onClickSearch = videoViewModel::getVideoById,
+        onInitVideo = videoViewModel::initializePlayer,
+        onVideoResume = videoViewModel::onVideoResume,
+        onVideoPause = videoViewModel::onVideoPause,
+        onVideoDispose = videoViewModel::onVideoDispose,
     )
 
 }
