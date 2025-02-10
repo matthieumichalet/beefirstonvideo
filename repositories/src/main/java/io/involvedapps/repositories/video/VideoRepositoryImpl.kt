@@ -10,6 +10,11 @@ class VideoRepositoryImpl(
 
     override suspend fun getVideoInfo(videoId: String): VideoUsecase.GetVideoInfoResult {
         return when (val result = remoteRepository.getVideoInfo(videoId)) {
+            VideoRepositoryRemote.GetVideoInfoRemoteResult.BadVideoId -> {
+                VideoUsecase.GetVideoInfoResult.Error(
+                    code = VideoUsecase.GetVideoInfoResult.ErrorCode.BadVideoId
+                )
+            }
             VideoRepositoryRemote.GetVideoInfoRemoteResult.HttpError -> {
                 VideoUsecase.GetVideoInfoResult.Error(
                     code = VideoUsecase.GetVideoInfoResult.ErrorCode.NetworkError

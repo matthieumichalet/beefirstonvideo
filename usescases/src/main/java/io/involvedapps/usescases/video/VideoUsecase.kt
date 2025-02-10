@@ -18,6 +18,7 @@ class VideoUsecase(
         sealed interface ErrorCode {
 
             data object NetworkError : ErrorCode
+            data object BadVideoId : ErrorCode
             data object ParsingError : ErrorCode
             data object UnknownError : ErrorCode
 

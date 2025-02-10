@@ -19,14 +19,17 @@ class VideoRepositoryRemote {
     suspend fun getVideoInfo(videoId: String) : GetVideoInfoRemoteResult {
         val urlPath = buildUrlPath(videoId)
 
-        return try {
+        try {
             val response = doHttpRequest(urlPath)
-            val videoInfoEntity = jsonDecoder.decodeFromString<VideoInfoEntity>(response)
+            if (response.contains(ErrorIdMessage)) {
+                return GetVideoInfoRemoteResult.BadVideoId
+            }
 
-            GetVideoInfoRemoteResult.Success(videoInfoEntity)
+            val videoInfoEntity = jsonDecoder.decodeFromString<VideoInfoEntity>(response)
+            return GetVideoInfoRemoteResult.Success(videoInfoEntity)
         } catch (exception : Exception) {
             exception.printStackTrace()
-            when (exception) {
+            return when (exception) {
                 is IOException -> {
                     GetVideoInfoRemoteResult.HttpError
                 }
@@ -90,11 +93,13 @@ class VideoRepositoryRemote {
         private const val URL_AUTHORITY = "www.dailymotion.com"
         private const val URL_PATH = "/player/metadata/video/"
 
+        private const val ErrorIdMessage = "\"code\":\"404\",\"message\":\"Can't find object video for `id' parameter\""
     }
 
     sealed interface GetVideoInfoRemoteResult {
 
         data object HttpError : GetVideoInfoRemoteResult
+        data object BadVideoId : GetVideoInfoRemoteResult
         data object ParsingJSONError : GetVideoInfoRemoteResult
         data object UnknownError : GetVideoInfoRemoteResult
         data class Success(val videoInfo: VideoInfoEntity) : GetVideoInfoRemoteResult

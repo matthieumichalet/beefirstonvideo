@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">BeeFirstOnVideo</string>
+    <string name="video_id_label">"Id de la vidéo"</string>
+    <string name="video_state_empty_label">Pas de vidéo à lire.\nVous pouvez rechercher une vidéo dailymotion par son ID !</string>
+    <string name="video_state_error_label">Erreur pour lire cette vidéo :\n</string>
+    <string name="video_state_error_label_bad_video_id">mauvais ID de vidéo</string>
+    <string name="video_state_error_label_no_network">pas de connexion réseau</string>
+    <string name="video_state_error_label_no_network_permission">pas d\'autorisation réseau android</string>
+    <string name="video_state_error_label_unknown">erreur inconnue</string>
+    <string name="video_state_loading_label">Chargement</string>
+    <string name="video_state_info_error_label">Impossible de récupérer les infos de la vidéo</string>
+</resources>

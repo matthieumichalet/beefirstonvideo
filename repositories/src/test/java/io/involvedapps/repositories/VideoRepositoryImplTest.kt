@@ -17,6 +17,17 @@ class VideoRepositoryImplTest {
     private val videoRepositoryImpl = VideoRepositoryImpl(remoteVideoRepository)
 
     @Test
+    fun repository_getVideoInfo_should_return_Error_with_ErrorCode_BadVideoId_if_the_remote_repository_returns_it() = runTest {
+        val fakeId = "1"
+        coEvery { remoteVideoRepository.getVideoInfo(fakeId) } returns VideoRepositoryRemote.GetVideoInfoRemoteResult.BadVideoId
+
+        val result = videoRepositoryImpl.getVideoInfo(fakeId)
+
+        assert(result is VideoUsecase.GetVideoInfoResult.Error)
+        assert((result as VideoUsecase.GetVideoInfoResult.Error).code is VideoUsecase.GetVideoInfoResult.ErrorCode.BadVideoId)
+    }
+
+    @Test
     fun repository_getVideoInfo_should_return_Error_with_ErrorCode_NetworkError_if_the_remote_repository_returns_it() = runTest {
         val fakeId = "1"
         coEvery { remoteVideoRepository.getVideoInfo(fakeId) } returns VideoRepositoryRemote.GetVideoInfoRemoteResult.HttpError

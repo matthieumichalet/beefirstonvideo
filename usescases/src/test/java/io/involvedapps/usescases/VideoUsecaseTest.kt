@@ -15,6 +15,19 @@ class VideoUsecaseTest {
     private val videoUsecase = VideoUsecase(videoRepository)
 
     @Test
+    fun usecase_getVideoInfoById_should_return_Error_with_ErrorCode_BadVideoId_if_the_repository_returns_it() = runTest {
+        val fakeId = "1"
+        coEvery { videoRepository.getVideoInfo(fakeId) } returns VideoUsecase.GetVideoInfoResult.Error(
+            VideoUsecase.GetVideoInfoResult.ErrorCode.BadVideoId
+        )
+
+        val result = videoUsecase.getVideoInfoById(fakeId)
+
+        assert(result is VideoUsecase.GetVideoInfoResult.Error)
+        assert((result as VideoUsecase.GetVideoInfoResult.Error).code is VideoUsecase.GetVideoInfoResult.ErrorCode.BadVideoId)
+    }
+
+    @Test
     fun usecase_getVideoInfoById_should_return_Error_with_ErrorCode_NetworkError_if_the_repository_returns_it() = runTest {
         val fakeId = "1"
         coEvery { videoRepository.getVideoInfo(fakeId) } returns VideoUsecase.GetVideoInfoResult.Error(

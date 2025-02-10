@@ -30,7 +30,6 @@ class VideoViewModel(
     private val _searchedTextState = MutableStateFlow("")
     val searchedTextState: StateFlow<String> = _searchedTextState
 
-    private var playbackPosition : Long = 0L
     private val exoPlayer = MutableStateFlow<ExoPlayer?>(null)
 
     fun updateSearchedText(text: String) {
@@ -57,7 +56,7 @@ class VideoViewModel(
     }
 
     @OptIn(UnstableApi::class)
-    fun initializePlayer(context: Context, videoUrl: String) {
+    fun initializePlayer(context: Context, videoInfoUI: VideoInfoUI) {
         if (exoPlayer.value != null) {
             return
         }
@@ -67,16 +66,16 @@ class VideoViewModel(
                 exoPlayer.value = ExoPlayer.Builder(context).build()
                 val dataSourceFactory =
                     DefaultDataSource.Factory(context, DefaultHttpDataSource.Factory())
-                val mediaItem = MediaItem.fromUri(videoUrl)
+                val mediaItem = MediaItem.fromUri(videoInfoUI.videoUrl)
                 val mediaSource = HlsMediaSource.Factory(dataSourceFactory).createMediaSource(mediaItem)
                 exoPlayer.value?.let {
                     it.apply {
                         setMediaSource(mediaSource)
-                        seekTo(playbackPosition)
+                        seekTo(0L)
                         addListener(object: Player.Listener {
                             override fun onPlaybackStateChanged(playbackState: Int) {
                                 if (playbackState == Player.STATE_READY) {
-                                    _videoState.value = VideoState.VideoReady(it)
+                                    _videoState.value = VideoState.VideoReady(it, videoInfoUI)
                                 }
                             }
                             override fun onPlayerError(error: PlaybackException) {
@@ -141,12 +140,13 @@ class VideoViewModel(
         data object Loading : VideoState
         data class VideoInfoError(val code: VideoInfoErrorCodeUI) : VideoState
         data class WaitingInitialization(val videoInfo: VideoInfoUI) : VideoState
-        data class VideoReady(val exoPlayer: ExoPlayer) : VideoState
+        data class VideoReady(val exoPlayer: ExoPlayer, val videoInfo: VideoInfoUI) : VideoState
         data class VideoError(val code: VideoErrorCodeUI) : VideoState
 
         sealed interface VideoInfoErrorCodeUI {
 
             data object NetworkError : VideoInfoErrorCodeUI
+            data object BadVideoId : VideoInfoErrorCodeUI
             data object ParsingError : VideoInfoErrorCodeUI
             data object UnknownError : VideoInfoErrorCodeUI
 

@@ -1,14 +1,16 @@
 package io.involvedapps.beefirstonvideo.video.views
 
 import android.content.Context
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalConfiguration
+import io.involvedapps.beefirstonvideo.utils.views.ScreenOrientation
+import io.involvedapps.beefirstonvideo.utils.views.getScreenOrientation
 import io.involvedapps.beefirstonvideo.video.VideoViewModel
+import io.involvedapps.beefirstonvideo.video.models.VideoInfoUI
 
 @Composable
 internal fun VideoScreenView(
@@ -17,50 +19,42 @@ internal fun VideoScreenView(
     searchedText: String,
     onSearchedTextChange: (String) -> Unit,
     onClickSearch: (String) -> Unit,
-    onInitVideo: (Context, String) -> Unit,
+    onInitVideo: (Context, VideoInfoUI) -> Unit,
     onVideoResume: () -> Unit,
     onVideoPause: () -> Unit,
     onVideoDispose: () -> Unit,
 ) {
-    val context = LocalContext.current
+    val configuration = LocalConfiguration.current
+    val orientation by remember { mutableStateOf(getScreenOrientation(configuration)) }
 
-    Column(
-        modifier = modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        VideoIdTextFieldView(
-            text = searchedText,
-            onSearchedTextChange = onSearchedTextChange,
-            onClickSearch = onClickSearch,
-        )
-
-        when (state) {
-            is VideoViewModel.VideoState.WaitingInitialization -> {
-                onInitVideo(context, state.videoInfo.videoUrl)
-                Text("Loading video")
-            }
-            is VideoViewModel.VideoState.VideoInfoError -> {
-                Text("Error")
-            }
-            VideoViewModel.VideoState.Loading -> {
-                Text("Searching video infos")
-            }
-            VideoViewModel.VideoState.None -> {
-                Text("None")
-            }
-
-            is VideoViewModel.VideoState.VideoError -> {
-                Text("Error ${state.code}")
-            }
-            is VideoViewModel.VideoState.VideoReady -> {
-                VideoPlayerView(
-                    exoPlayer = state.exoPlayer,
-                    onVideoResume = onVideoResume,
-                    onVideoPause = onVideoPause,
-                    onVideoDispose = onVideoDispose,
-                )
-            }
+    when (orientation) {
+        ScreenOrientation.Landscape -> {
+            VideoScreenViewLandscape(
+                modifier = modifier,
+                state = state,
+                searchedText = searchedText,
+                onSearchedTextChange = onSearchedTextChange,
+                onClickSearch = onClickSearch,
+                onInitVideo = onInitVideo,
+                onVideoResume = onVideoResume,
+                onVideoPause = onVideoPause,
+                onVideoDispose = onVideoDispose,
+            )
+        }
+        ScreenOrientation.Portrait -> {
+            VideoScreenViewPortrait(
+                modifier = modifier,
+                state = state,
+                searchedText = searchedText,
+                onSearchedTextChange = onSearchedTextChange,
+                onClickSearch = onClickSearch,
+                onInitVideo = onInitVideo,
+                onVideoResume = onVideoResume,
+                onVideoPause = onVideoPause,
+                onVideoDispose = onVideoDispose,
+            )
         }
     }
+
 
 }
